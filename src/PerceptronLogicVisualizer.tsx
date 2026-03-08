@@ -410,7 +410,7 @@ export default function PerceptronLogicVisualizer() {
         boxSizing: "border-box",
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1500px", margin: "0 auto" }}>
         <div
           style={{
             ...cardStyle(),
@@ -425,14 +425,7 @@ export default function PerceptronLogicVisualizer() {
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
-            gap: "20px",
-            alignItems: "stretch",
-          }}
-        >
+        <div className="layout-top-grid">
           <div style={cardStyle()}>
             <h2 style={sectionTitleStyle()}>제어 패널</h2>
 
@@ -566,57 +559,8 @@ export default function PerceptronLogicVisualizer() {
               output={result.output}
             />
           </div>
-        </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
-            gap: "20px",
-            marginTop: "20px",
-            alignItems: "stretch",
-          }}
-        >
-          <div style={cardStyle()}>
-            <h2 style={sectionTitleStyle()}>현재 계산</h2>
-
-            <div
-              style={{
-                background: "#f8fafc",
-                border: "1px solid #e2e8f0",
-                borderRadius: "16px",
-                padding: "16px",
-                lineHeight: 1.8,
-                color: "#0f172a",
-              }}
-            >
-              <div>net = x₁×w₁ + x₂×w₂ - θ</div>
-              <div>
-                = {sample.x1}×{w1} + {sample.x2}×{w2} - ({theta})
-              </div>
-              <div>= <strong>{round(result.net)}</strong></div>
-              <div>출력 = <strong>{result.output}</strong></div>
-              <div>정답 = <strong>{sample.y}</strong></div>
-            </div>
-
-            {logicType === "XOR" && (
-              <div
-                style={{
-                  marginTop: "16px",
-                  background: "#fff1f2",
-                  border: "1px solid #fecdd3",
-                  color: "#9f1239",
-                  borderRadius: "16px",
-                  padding: "14px",
-                  lineHeight: 1.6,
-                }}
-              >
-                XOR는 단층 퍼셉트론으로 완전히 분리하기 어렵습니다. 점들이 직선 하나로 깔끔하게 나뉘지 않기 때문입니다.
-              </div>
-            )}
-          </div>
-
-          <div style={{ minWidth: 0 }}>
+          <div className="layout-boundary" style={{ minWidth: 0 }}>
             <BoundaryChart
               dataset={dataset}
               w1={w1}
@@ -627,123 +571,140 @@ export default function PerceptronLogicVisualizer() {
           </div>
         </div>
 
-        <div style={{ ...cardStyle(), marginTop: "20px" }}>
-          <h2 style={sectionTitleStyle()}>진리표와 예측</h2>
-
-          <div style={{ overflowX: "auto" }}>
-            <table
-              style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                minWidth: "700px",
-              }}
-            >
-              <thead>
-                <tr style={{ background: "#f8fafc" }}>
-                  <th style={tableHeaderStyle}>x1</th>
-                  <th style={tableHeaderStyle}>x2</th>
-                  <th style={tableHeaderStyle}>정답</th>
-                  <th style={tableHeaderStyle}>net</th>
-                  <th style={tableHeaderStyle}>예측</th>
-                  <th style={tableHeaderStyle}>판정</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row, index) => (
-                  <tr
-                    key={index}
-                    style={{
-                      background:
-                        selectedIndex === index ? "#eff6ff" : "#ffffff",
-                    }}
-                  >
-                    <td style={tableCellStyle}>{row.x1}</td>
-                    <td style={tableCellStyle}>{row.x2}</td>
-                    <td style={tableCellStyle}>{row.y}</td>
-                    <td style={tableCellStyle}>{row.net}</td>
-                    <td style={tableCellStyle}>{row.pred}</td>
-                    <td style={tableCellStyle}>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          padding: "6px 10px",
-                          borderRadius: "999px",
-                          fontSize: "13px",
-                          fontWeight: 700,
-                          background: row.correct ? "#dcfce7" : "#fee2e2",
-                          color: row.correct ? "#166534" : "#991b1b",
-                        }}
-                      >
-                        {row.correct ? "정답" : "오답"}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div style={{ ...cardStyle(), marginTop: "20px" }}>
-          <h2 style={sectionTitleStyle()}>학습 로그</h2>
-
+        {logicType === "XOR" && (
           <div
             style={{
-              border: "1px solid #e2e8f0",
-              borderRadius: "12px",
-              overflow: "hidden",
+              ...cardStyle(),
+              marginTop: "20px",
+              background: "#fff1f2",
+              border: "1px solid #fecdd3",
+              color: "#9f1239",
+              lineHeight: 1.6,
             }}
           >
-            {learningLogs.length === 0 ? (
-              <div style={{ padding: "16px", color: "#64748b" }}>
-                아직 학습 로그가 없습니다. "한 단계 학습" 또는 "자동 학습 시작"을 눌러주세요.
-              </div>
-            ) : (
-              <div style={{ overflowX: "auto", maxHeight: "320px", overflowY: "auto" }}>
-                <table
-                  style={{
-                    width: "100%",
-                    borderCollapse: "collapse",
-                    minWidth: "980px",
-                  }}
-                >
-                  <thead>
-                    <tr style={{ background: "#f8fafc" }}>
-                      <th style={tableHeaderStyle}>step</th>
-                      <th style={tableHeaderStyle}>샘플</th>
-                      <th style={tableHeaderStyle}>정답/예측</th>
-                      <th style={tableHeaderStyle}>오차</th>
-                      <th style={tableHeaderStyle}>w1</th>
-                      <th style={tableHeaderStyle}>w2</th>
-                      <th style={tableHeaderStyle}>θ</th>
+            XOR는 단층 퍼셉트론으로 완전히 분리하기 어렵습니다. 점들이 직선 하나로 깔끔하게 나뉘지 않기 때문입니다.
+          </div>
+        )}
+
+        <div className="layout-bottom-grid">
+          <div style={cardStyle()}>
+            <h2 style={sectionTitleStyle()}>진리표와 예측</h2>
+
+            <div style={{ overflowX: "auto" }}>
+              <table
+                style={{
+                  width: "100%",
+                  borderCollapse: "collapse",
+                  minWidth: "700px",
+                }}
+              >
+                <thead>
+                  <tr style={{ background: "#f8fafc" }}>
+                    <th style={tableHeaderStyle}>x1</th>
+                    <th style={tableHeaderStyle}>x2</th>
+                    <th style={tableHeaderStyle}>정답</th>
+                    <th style={tableHeaderStyle}>net</th>
+                    <th style={tableHeaderStyle}>예측</th>
+                    <th style={tableHeaderStyle}>판정</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row, index) => (
+                    <tr
+                      key={index}
+                      style={{
+                        background:
+                          selectedIndex === index ? "#eff6ff" : "#ffffff",
+                      }}
+                    >
+                      <td style={tableCellStyle}>{row.x1}</td>
+                      <td style={tableCellStyle}>{row.x2}</td>
+                      <td style={tableCellStyle}>{row.y}</td>
+                      <td style={tableCellStyle}>{row.net}</td>
+                      <td style={tableCellStyle}>{row.pred}</td>
+                      <td style={tableCellStyle}>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            padding: "6px 10px",
+                            borderRadius: "999px",
+                            fontSize: "13px",
+                            fontWeight: 700,
+                            background: row.correct ? "#dcfce7" : "#fee2e2",
+                            color: row.correct ? "#166534" : "#991b1b",
+                          }}
+                        >
+                          {row.correct ? "정답" : "오답"}
+                        </span>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {learningLogs.map((log) => (
-                      <tr key={log.id}>
-                        <td style={tableCellStyle}>{log.step}</td>
-                        <td style={tableCellStyle}>
-                          #{log.sampleIndex + 1} ({log.x1}, {log.x2})
-                        </td>
-                        <td style={tableCellStyle}>
-                          {log.target} / {log.pred}
-                        </td>
-                        <td style={tableCellStyle}>{log.error}</td>
-                        <td style={tableCellStyle}>
-                          {log.w1Before} → {log.w1After}
-                        </td>
-                        <td style={tableCellStyle}>
-                          {log.w2Before} → {log.w2After}
-                        </td>
-                        <td style={tableCellStyle}>
-                          {log.thetaBefore} → {log.thetaAfter}
-                        </td>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style={cardStyle()}>
+            <h2 style={sectionTitleStyle()}>학습 로그</h2>
+
+            <div
+              style={{
+                border: "1px solid #e2e8f0",
+                borderRadius: "12px",
+                overflow: "hidden",
+              }}
+            >
+              {learningLogs.length === 0 ? (
+                <div style={{ padding: "16px", color: "#64748b" }}>
+                  아직 학습 로그가 없습니다. "한 단계 학습" 또는 "자동 학습 시작"을 눌러주세요.
+                </div>
+              ) : (
+                <div style={{ overflowX: "auto", maxHeight: "320px", overflowY: "auto" }}>
+                  <table
+                    style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      minWidth: "980px",
+                    }}
+                  >
+                    <thead>
+                      <tr style={{ background: "#f8fafc" }}>
+                        <th style={tableHeaderStyle}>step</th>
+                        <th style={tableHeaderStyle}>샘플</th>
+                        <th style={tableHeaderStyle}>정답/예측</th>
+                        <th style={tableHeaderStyle}>오차</th>
+                        <th style={tableHeaderStyle}>w1</th>
+                        <th style={tableHeaderStyle}>w2</th>
+                        <th style={tableHeaderStyle}>θ</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                    </thead>
+                    <tbody>
+                      {learningLogs.map((log) => (
+                        <tr key={log.id}>
+                          <td style={tableCellStyle}>{log.step}</td>
+                          <td style={tableCellStyle}>
+                            #{log.sampleIndex + 1} ({log.x1}, {log.x2})
+                          </td>
+                          <td style={tableCellStyle}>
+                            {log.target} / {log.pred}
+                          </td>
+                          <td style={tableCellStyle}>{log.error}</td>
+                          <td style={tableCellStyle}>
+                            {log.w1Before} → {log.w1After}
+                          </td>
+                          <td style={tableCellStyle}>
+                            {log.w2Before} → {log.w2After}
+                          </td>
+                          <td style={tableCellStyle}>
+                            {log.thetaBefore} → {log.thetaAfter}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
