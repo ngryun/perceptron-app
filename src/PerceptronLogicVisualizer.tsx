@@ -67,6 +67,10 @@ function round3(value: number): number {
   return Math.round(value * 1000) / 1000;
 }
 
+function randomWeight(): number {
+  return Math.round((Math.random() * 2 - 1) * 10) / 10;
+}
+
 function toTheta(bias: number): number {
   return round3(-bias);
 }
@@ -283,9 +287,9 @@ function BoundaryChart(props: {
 
 export default function PerceptronLogicVisualizer() {
   const [logicType, setLogicType] = useState<LogicType>("AND");
-  const [w1, setW1] = useState<number>(0.5);
-  const [w2, setW2] = useState<number>(0.5);
-  const [bias, setBias] = useState<number>(-0.7);
+  const [w1, setW1] = useState<number>(() => randomWeight());
+  const [w2, setW2] = useState<number>(() => randomWeight());
+  const [bias, setBias] = useState<number>(() => randomWeight());
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [trainCursor, setTrainCursor] = useState<number>(0);
   const [learningStep, setLearningStep] = useState<number>(0);
@@ -381,23 +385,9 @@ export default function PerceptronLogicVisualizer() {
     setAutoLearning(false);
     setLearningLogs([]);
 
-    if (nextLogic === "AND") {
-      setW1(0.5);
-      setW2(0.5);
-      setBias(-0.7);
-    } else if (nextLogic === "OR") {
-      setW1(0.6);
-      setW2(0.6);
-      setBias(-0.3);
-    } else if (nextLogic === "NAND") {
-      setW1(-0.6);
-      setW2(-0.6);
-      setBias(0.9);
-    } else {
-      setW1(0.2);
-      setW2(-0.1);
-      setBias(0);
-    }
+    setW1(randomWeight());
+    setW2(randomWeight());
+    setBias(randomWeight());
   }
 
   return (
