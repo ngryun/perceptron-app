@@ -529,23 +529,6 @@ export default function PerceptronLogicVisualizer() {
                 </div>
               </div>
             </div>
-
-            <div
-              style={{
-                background: "#eff6ff",
-                border: "1px solid #bfdbfe",
-                borderRadius: "16px",
-                padding: "14px",
-              }}
-            >
-              <div style={{ fontWeight: 700, marginBottom: "8px" }}>현재 상태</div>
-              <div style={{ marginBottom: "4px" }}>정확도: {accuracy}%</div>
-              <div style={{ marginBottom: "4px" }}>학습 스텝: {learningStep}</div>
-              <div style={{ marginBottom: "4px" }}>임계값 θ: {theta}</div>
-              <div style={{ marginBottom: "4px" }}>선택한 입력: ({sample.x1}, {sample.x2})</div>
-              <div style={{ marginBottom: "4px" }}>정답: {sample.y}</div>
-              <div>자동 학습: {autoLearning ? "실행 중" : "정지"}</div>
-            </div>
           </div>
 
           <div style={{ minWidth: 0 }}>
@@ -659,43 +642,43 @@ export default function PerceptronLogicVisualizer() {
                   아직 학습 로그가 없습니다. "한 단계 학습" 또는 "자동 학습 시작"을 눌러주세요.
                 </div>
               ) : (
-                <div style={{ overflowX: "auto", maxHeight: "320px", overflowY: "auto" }}>
+                <div style={{ overflowX: "hidden" }}>
                   <table
                     style={{
                       width: "100%",
                       borderCollapse: "collapse",
-                      minWidth: "980px",
+                      tableLayout: "fixed",
                     }}
                   >
                     <thead>
                       <tr style={{ background: "#f8fafc" }}>
-                        <th style={tableHeaderStyle}>step</th>
-                        <th style={tableHeaderStyle}>샘플</th>
-                        <th style={tableHeaderStyle}>정답/예측</th>
-                        <th style={tableHeaderStyle}>오차</th>
-                        <th style={tableHeaderStyle}>w1</th>
-                        <th style={tableHeaderStyle}>w2</th>
-                        <th style={tableHeaderStyle}>θ</th>
+                        <th style={logTableHeaderStyle}>step</th>
+                        <th style={logTableHeaderStyle}>샘플</th>
+                        <th style={logTableHeaderStyle}>정답/예측</th>
+                        <th style={logTableHeaderStyle}>오차</th>
+                        <th style={logTableHeaderStyle}>w1</th>
+                        <th style={logTableHeaderStyle}>w2</th>
+                        <th style={logTableHeaderStyle}>θ</th>
                       </tr>
                     </thead>
                     <tbody>
                       {learningLogs.map((log) => (
                         <tr key={log.id}>
-                          <td style={tableCellStyle}>{log.step}</td>
-                          <td style={tableCellStyle}>
+                          <td style={logTableCellStyle}>{log.step}</td>
+                          <td style={logTableCellStyle}>
                             #{log.sampleIndex + 1} ({log.x1}, {log.x2})
                           </td>
-                          <td style={tableCellStyle}>
+                          <td style={logTableCellStyle}>
                             {log.target} / {log.pred}
                           </td>
-                          <td style={tableCellStyle}>{log.error}</td>
-                          <td style={tableCellStyle}>
+                          <td style={logTableCellStyle}>{log.error}</td>
+                          <td style={logTableCellStyle}>
                             {log.w1Before} → {log.w1After}
                           </td>
-                          <td style={tableCellStyle}>
+                          <td style={logTableCellStyle}>
                             {log.w2Before} → {log.w2After}
                           </td>
-                          <td style={tableCellStyle}>
+                          <td style={logTableCellStyle}>
                             {log.thetaBefore} → {log.thetaAfter}
                           </td>
                         </tr>
@@ -723,4 +706,21 @@ const tableCellStyle: React.CSSProperties = {
   padding: "12px",
   borderBottom: "1px solid #e2e8f0",
   color: "#0f172a",
+};
+
+const logTableHeaderStyle: React.CSSProperties = {
+  ...tableHeaderStyle,
+  padding: "8px 10px",
+  fontSize: "13px",
+  whiteSpace: "nowrap",
+};
+
+const logTableCellStyle: React.CSSProperties = {
+  ...tableCellStyle,
+  padding: "7px 10px",
+  fontSize: "13px",
+  lineHeight: 1.35,
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 };
