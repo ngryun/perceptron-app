@@ -137,50 +137,127 @@ function PerceptronDiagram(props: {
   const theta = toTheta(bias);
   const weightedSum = round3(x1 * w1 + x2 * w2);
   const activationInput = round3(net);
+  const summaryBoxStyle: React.CSSProperties = {
+    background: "#f8fafc",
+    border: "1px solid #dbeafe",
+    borderRadius: "16px",
+    padding: "18px 20px",
+    boxSizing: "border-box",
+  };
 
   return (
     <div style={{ ...cardStyle(), height: "100%" }}>
       <h2 style={sectionTitleStyle()}>퍼셉트론 구조</h2>
-      <svg viewBox="0 0 520 240" style={{ width: "100%", height: "240px" }}>
-        <circle cx="90" cy="70" r="28" fill="#ffffff" stroke="#334155" strokeWidth="2" />
-        <circle cx="90" cy="150" r="28" fill="#ffffff" stroke="#334155" strokeWidth="2" />
+      <svg
+        viewBox="0 0 760 360"
+        style={{ width: "100%", height: "auto", display: "block", margin: "0 auto" }}
+      >
+        <defs>
+          <marker
+            id="perceptron-arrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="8"
+            refY="5"
+            orient="auto"
+          >
+            <path d="M0,0 L10,5 L0,10 Z" fill="#334155" />
+          </marker>
+        </defs>
 
-        <circle cx="270" cy="110" r="52" fill="#f8fafc" stroke="#334155" strokeWidth="2.5" />
-        <rect x="340" y="72" width="56" height="76" rx="14" fill="#dbeafe" stroke="#2563eb" strokeWidth="2" />
+        <text x="70" y="50" fontSize="20" fontWeight="700" fill="#475569">입력값</text>
+        <text x="294" y="50" fontSize="20" fontWeight="700" fill="#475569">가중합</text>
+        <text x="484" y="50" fontSize="20" fontWeight="700" fill="#475569">판정</text>
+        <text x="656" y="50" fontSize="20" fontWeight="700" fill="#475569">출력</text>
 
-        <line x1="118" y1="70" x2="220" y2="90" stroke="#334155" strokeWidth="2" />
-        <line x1="118" y1="150" x2="220" y2="130" stroke="#334155" strokeWidth="2" />
-        <line x1="322" y1="110" x2="340" y2="110" stroke="#334155" strokeWidth="2.5" />
-        <line x1="396" y1="110" x2="430" y2="110" stroke="#334155" strokeWidth="2.5" />
-        <polygon points="430,110 416,102 416,118" fill="#334155" />
+        <circle cx="96" cy="124" r="46" fill="#ffffff" stroke="#334155" strokeWidth="4" />
+        <circle cx="96" cy="254" r="46" fill="#ffffff" stroke="#334155" strokeWidth="4" />
+        <text x="82" y="116" fontSize="32" fontWeight="700" fill="#0f172a">x₁</text>
+        <text x="82" y="246" fontSize="32" fontWeight="700" fill="#0f172a">x₂</text>
+        <text x="89" y="146" fontSize="30" fontWeight="700" fill="#2563eb">{x1}</text>
+        <text x="89" y="276" fontSize="30" fontWeight="700" fill="#2563eb">{x2}</text>
 
-        <text x="82" y="76" fontSize="18" fill="#0f172a">x₁</text>
-        <text x="82" y="156" fontSize="18" fill="#0f172a">x₂</text>
+        <line x1="142" y1="124" x2="272" y2="164" stroke="#334155" strokeWidth="5" markerEnd="url(#perceptron-arrow)" />
+        <line x1="142" y1="254" x2="272" y2="204" stroke="#334155" strokeWidth="5" markerEnd="url(#perceptron-arrow)" />
+        <text x="176" y="118" fontSize="24" fontWeight="700" fill="#0f172a">w₁ = {round3(w1)}</text>
+        <text x="176" y="246" fontSize="24" fontWeight="700" fill="#0f172a">w₂ = {round3(w2)}</text>
 
-        <text x="42" y="38" fontSize="14" fill="#475569">입력값</text>
-        <text x="236" y="36" fontSize="14" fill="#475569">가중합 s</text>
-        <text x="342" y="36" fontSize="14" fill="#475569">활성화 f</text>
-        <text x="444" y="88" fontSize="14" fill="#475569">출력</text>
+        <circle cx="360" cy="184" r="84" fill="#f8fafc" stroke="#334155" strokeWidth="5" />
+        <text x="344" y="172" fontSize="46" fontWeight="700" fill="#0f172a">Σ</text>
+        <text x="308" y="212" fontSize="26" fontWeight="700" fill="#475569">s = {weightedSum}</text>
 
-        <text x="257" y="116" fontSize="22" fill="#0f172a">Σ</text>
-        <text x="360" y="118" fontSize="28" fill="#1e3a8a">f</text>
-        <text x="448" y="116" fontSize="18" fill="#0f172a">y = {output}</text>
-        <text x="327" y="64" fontSize="13" fill="#0f172a">임계값 θ = {theta}</text>
-        <text x="322" y="164" fontSize="12" fill="#475569">y = 1 (s ≥ θ), 0 (s &lt; θ)</text>
+        <line x1="444" y1="184" x2="500" y2="184" stroke="#334155" strokeWidth="5" markerEnd="url(#perceptron-arrow)" />
 
-        <text x="145" y="72" fontSize="14" fill="#0f172a">w₁ = {w1}</text>
-        <text x="145" y="150" fontSize="14" fill="#0f172a">w₂ = {w2}</text>
+        <rect x="520" y="118" width="126" height="134" rx="28" fill="#dbeafe" stroke="#2563eb" strokeWidth="5" />
+        <text x="572" y="170" fontSize="34" fontWeight="700" fill="#1e3a8a">f</text>
+        <text x="547" y="206" fontSize="23" fontWeight="700" fill="#1e3a8a">θ = {theta}</text>
+        <text x="534" y="232" fontSize="17" fontWeight="700" fill="#1e3a8a">s와 θ를 비교</text>
 
-        <text x="50" y="102" fontSize="14" fill="#0f172a">{x1}</text>
-        <text x="50" y="182" fontSize="14" fill="#0f172a">{x2}</text>
+        <line x1="646" y1="184" x2="680" y2="184" stroke="#334155" strokeWidth="5" markerEnd="url(#perceptron-arrow)" />
 
-        <text x="156" y="190" fontSize="13" fill="#0f172a">
-          s = x₁w₁ + x₂w₂ = {x1}×{w1} + {x2}×{w2} = {weightedSum}
-        </text>
-        <text x="156" y="208" fontSize="13" fill="#0f172a">
-          s - θ = {weightedSum} - {theta} = {activationInput} → y = {output}
-        </text>
+        <rect
+          x="684"
+          y="136"
+          width="58"
+          height="96"
+          rx="22"
+          fill={output === 1 ? "#dcfce7" : "#fee2e2"}
+          stroke={output === 1 ? "#15803d" : "#b91c1c"}
+          strokeWidth="5"
+        />
+        <text x="705" y="196" fontSize="38" fontWeight="700" fill="#0f172a">{output}</text>
       </svg>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+          gap: "14px",
+          marginTop: "18px",
+        }}
+      >
+        <div style={summaryBoxStyle}>
+          <div style={{ color: "#475569", fontSize: "15px", fontWeight: 700, marginBottom: "8px" }}>
+            1. 입력과 가중치
+          </div>
+          <div style={{ color: "#0f172a", fontSize: "18px", lineHeight: 1.6 }}>
+            x₁ = {x1}, x₂ = {x2}
+          </div>
+          <div style={{ color: "#0f172a", fontSize: "18px", lineHeight: 1.6 }}>
+            w₁ = {round3(w1)}, w₂ = {round3(w2)}
+          </div>
+        </div>
+
+        <div style={summaryBoxStyle}>
+          <div style={{ color: "#475569", fontSize: "15px", fontWeight: 700, marginBottom: "8px" }}>
+            2. 가중합 계산
+          </div>
+          <div style={{ color: "#0f172a", fontSize: "18px", lineHeight: 1.6 }}>
+            s = x₁w₁ + x₂w₂
+          </div>
+          <div style={{ color: "#0f172a", fontSize: "18px", lineHeight: 1.6 }}>
+            = {x1}×{round3(w1)} + {x2}×{round3(w2)}
+          </div>
+          <div style={{ color: "#2563eb", fontSize: "24px", fontWeight: 700, lineHeight: 1.4 }}>
+            s = {weightedSum}
+          </div>
+        </div>
+
+        <div style={summaryBoxStyle}>
+          <div style={{ color: "#475569", fontSize: "15px", fontWeight: 700, marginBottom: "8px" }}>
+            3. 임계값과 비교
+          </div>
+          <div style={{ color: "#0f172a", fontSize: "18px", lineHeight: 1.6 }}>
+            θ = {theta}
+          </div>
+          <div style={{ color: "#0f172a", fontSize: "18px", lineHeight: 1.6 }}>
+            s - θ = {weightedSum} - {theta}
+          </div>
+          <div style={{ color: "#0f172a", fontSize: "24px", fontWeight: 700, lineHeight: 1.4 }}>
+            {activationInput} {activationInput >= 0 ? "≥" : "<"} 0 → y = {output}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
