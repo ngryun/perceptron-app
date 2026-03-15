@@ -680,6 +680,35 @@ export default function PerceptronLogicVisualizer() {
             </div>
           </div>
         </div>
+
+        <div
+          style={{
+            marginTop: "24px",
+            padding: "0 4px 8px",
+            color: "#64748b",
+            fontSize: "13px",
+            lineHeight: 1.7,
+            textAlign: "center",
+          }}
+        >
+          <div>Copyright © Namgungyeon. All rights reserved.</div>
+          <div>
+            수업 소개 및 활용 글:
+            {" "}
+            <a
+              href="https://namgungyeon.tistory.com/154"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: "#1d4ed8",
+                fontWeight: 600,
+                textDecoration: "none",
+              }}
+            >
+              https://namgungyeon.tistory.com/154
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
